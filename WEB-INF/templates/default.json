@@ -1,0 +1,13 @@
+{
+	"module.html.layout" : {
+			"module.html.header" : {
+				"head" : "header"
+			},
+			"module.html.body" : {
+				"body" : "body"
+			},
+			"module.html.footer" : {
+				"footer" : "footer"
+			}
+	}
+}

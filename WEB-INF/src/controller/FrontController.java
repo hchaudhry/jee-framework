@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +17,10 @@ import org.esgi.web.framework.core.interfaces.IFrontController;
 import org.esgi.web.framework.router.interfaces.IDispatcher;
 import org.esgi.web.framework.router.interfaces.IRewriter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import rewriteRules.RegExpRoute;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * HttpServlet implementation class FrontController
@@ -32,6 +32,7 @@ public class FrontController extends HttpServlet implements IFrontController {
 	private IRewriter rewriter;
 	
 	private List<User> users;
+	private IContext context;
 	
 	private static String URIroot = "/FrontControllerProject/";
 	
@@ -50,7 +51,9 @@ public class FrontController extends HttpServlet implements IFrontController {
 			
 			new RegExpRoute(URIroot + "user/add", "modules.user.Create"),
 			
-			new RegExpRoute(URIroot + "user/update/([1-9]+)", "modules.user.Update", new String[] {"id"})
+			new RegExpRoute(URIroot + "user/update/([1-9]+)", "modules.user.Update", new String[] {"id"}),
+			
+			new RegExpRoute(URIroot + "home", "modules.pages.HomePage")
 		);
 		
 		users = new ArrayList<User>();
@@ -73,7 +76,7 @@ public class FrontController extends HttpServlet implements IFrontController {
 	
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response) {
-		IContext context = createContext(request,response);
+		context = createContext(request,response);
 		
 		context.setAttribute("users", users);
 		
@@ -85,19 +88,28 @@ public class FrontController extends HttpServlet implements IFrontController {
 		return new Context(request,response);
 	}
 	
-	public void getTemplate()
+	public void getTemplate(IContext context)
 	{
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String,Object> userData = null;
+		ObjectMapper m = new ObjectMapper();
+		JsonNode rootNode = null;
 		try {
-			userData = mapper.readValue(new File("/home/hussam/Bureau/jee/FrontControllerProject/WEB-INF/src/controller/user.json"), Map.class);
+			rootNode = m.readTree(new File("/home/hussam/Bureau/jee/FrontControllerProject/WEB-INF/templates/default.json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		for (Map.Entry<String, Object> entry : userData.entrySet())
-		{
-		    System.out.println(entry.getKey() + " : " + entry.getValue());
-		}
+		JsonNode node = rootNode.path("module.html.layout");
+		JsonNode headerNode = node.findValue("module.html.header");
+		JsonNode header = headerNode.findValue("head");
+		
+		JsonNode bodyNode = node.findValue("module.html.body");
+		JsonNode body = bodyNode.findValue("body");
+		
+		JsonNode footerNode = node.findValue("module.html.footer");
+		JsonNode footer = footerNode.findValue("footer");
+		
+		context.setAttribute("header", header.toString());
+		context.setAttribute("body", body.toString());
+		context.setAttribute("footer", footer.toString());
 	}
 }

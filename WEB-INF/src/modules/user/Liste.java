@@ -16,8 +16,6 @@ public class Liste implements IAction{
 	private RendererJson renderJson;
 	
 	public Liste() {
-		FrontController ft = new FrontController();
-		ft.getTemplate();
 		renderer = new Renderer();
 		renderJson = new RendererJson();
 	}
