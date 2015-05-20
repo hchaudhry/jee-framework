@@ -90,10 +90,14 @@ public class FrontController extends HttpServlet implements IFrontController {
 	
 	public void getTemplate(IContext context)
 	{
+		String requestUrl = context._getRequest().getRequestURI().toString();
+		requestUrl = requestUrl.replace("/FrontControllerProject/", "");
+		requestUrl = requestUrl.replace("/", "");
+		
 		ObjectMapper m = new ObjectMapper();
 		JsonNode rootNode = null;
 		try {
-			rootNode = m.readTree(new File("/home/hussam/Bureau/jee/FrontControllerProject/WEB-INF/templates/default.json"));
+			rootNode = m.readTree(new File("/home/hussam/Bureau/jee/FrontControllerProject/WEB-INF/templates/"+requestUrl+".json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
