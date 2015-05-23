@@ -38,9 +38,9 @@ public class HomePage implements IAction{
 
 	@Override
 	public void proceed(IContext context) {
-		
-		FrontController ft = new FrontController();
-		ft.getTemplate(context);
+//		
+//		FrontController ft = new FrontController();
+//		ft.getTemplate(context);
 		
 		String header = (String) context.getAttribute("header");
 		header = header.replace("\"", "");
@@ -51,9 +51,27 @@ public class HomePage implements IAction{
 		String footer = (String) context.getAttribute("footer");
 		footer = footer.replace("\"", "");
 		
-		String content = getContentFromFile(header);
-		content += getContentFromFile(body);
-		content += getContentFromFile(footer);
+		String content;
+		if (header == "__CURRENT__") {
+			content = (String) context.getAttribute("headerContent");
+		}
+		else {
+			content = getContentFromFile(header, "headerContent", context);
+		}
+		
+		if (body == "__CURRENT__") {
+			content += (String) context.getAttribute("bodyContent");
+		}
+		else {
+			content += getContentFromFile(body, "bodyContent", context);
+		}
+		
+		if (footer == "__CURRENT__") {
+			content += (String) context.getAttribute("footerContent");
+		}
+		else {
+			content += getContentFromFile(footer, "footerContent", context);
+		}
 		
 		try {
 			context._getResponse().getWriter().println(content);
@@ -62,7 +80,7 @@ public class HomePage implements IAction{
 		}
 	}
 	
-	public String getContentFromFile(String fileName) {
+	public String getContentFromFile(String fileName, String contentType, IContext context) {
 		
 		String content = null;
 		try (BufferedReader br = new BufferedReader(new FileReader("/home/hussam/Bureau/jee/FrontControllerProject/WEB-INF/views/"+fileName+".jsp")))
@@ -79,6 +97,8 @@ public class HomePage implements IAction{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		context.setAttribute(contentType, content);
 		
 		return content;
 	}
