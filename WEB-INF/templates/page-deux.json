@@ -1,8 +1,7 @@
 {
 	"module.html.layout" : {
 			"module.html.header" : {
-				"head" : "header",
-				"login" : "login-bar"
+				"head" : "__CURRENT__"
 			},
 			"module.html.body" : {
 				"body" : "body"
