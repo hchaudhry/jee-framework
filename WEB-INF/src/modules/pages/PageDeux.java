@@ -9,17 +9,15 @@ import modules.misc.VelocityUtil;
 
 import org.esgi.web.framework.action.interfaces.IAction;
 import org.esgi.web.framework.context.interfaces.IContext;
-import org.esgi.web.framework.context.interfaces.IHtmlContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controller.FrontController;
 
-public class HomePage implements IAction {
-
-	private Map<String, Object> velocityContext;
-	private IHtmlContext contextHtml;
+public class PageDeux implements IAction {
 	
+	private Map<String, Object> velocityContext;
+
 	@Override
 	public int setPriority(int priority) {
 		return 0;
@@ -32,7 +30,6 @@ public class HomePage implements IAction {
 
 	@Override
 	public void addCredential(String role) {
-
 	}
 
 	@Override
@@ -52,10 +49,8 @@ public class HomePage implements IAction {
 		List<Entry<String, JsonNode>> elements = ft.getTemplate(context);
 		
 		velocityContext = (Map<String, Object>) context.getAttribute("velocityContext");
-		velocityContext.put("name", "huseyin");
-
 		String content = getContentFromFile(elements, context);
-		
+
 		try {
 			context._getResponse().getWriter().println(content);
 			context.setAttribute("velocityContext", velocityContext);
@@ -82,13 +77,6 @@ public class HomePage implements IAction {
 			
 			if(content == null){
 				content = VelocityUtil.getInstance().render(file + ".vm", velocityContext).toString();
-
-				contextHtml = context.toHtmlContext();
-				String[] cssLinks = contextHtml.getCssLinks();
-				
-				for (String link : cssLinks) {
-					content += "<link href=\"" + link + "\" rel=\"stylesheet\" type=\"text/css\">";
-				}
 			}
 			else {
 				content += VelocityUtil.getInstance().render(file + ".vm", velocityContext).toString();

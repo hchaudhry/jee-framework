@@ -1,7 +1,7 @@
 {
 	"module.html.layout" : {
 			"module.html.header" : {
-				"head" : "__CURRENT__"
+				"head" : "header"
 			},
 			"module.html.body" : {
 				"body" : "body"

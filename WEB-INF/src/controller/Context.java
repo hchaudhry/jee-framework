@@ -190,7 +190,7 @@ public class Context implements IContext, IHtmlContext {
 
 	@Override
 	public String[] getCssLinks() {
-		return (String[]) cssLinks.toArray();
+		return (String[]) cssLinks.toArray(new String[cssLinks.size()]);
 	}
 
 	@Override

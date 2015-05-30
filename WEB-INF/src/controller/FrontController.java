@@ -2,9 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,17 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modules.user.User;
+import modules.misc.VelocityInitializer;
 
 import org.esgi.web.framework.context.interfaces.IContext;
+import org.esgi.web.framework.context.interfaces.IHtmlContext;
 import org.esgi.web.framework.core.interfaces.IFrontController;
 import org.esgi.web.framework.router.interfaces.IDispatcher;
 import org.esgi.web.framework.router.interfaces.IRewriter;
 
 import rewriteRules.RegExpRoute;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -40,10 +36,13 @@ public class FrontController extends HttpServlet implements IFrontController {
 	private IDispatcher dispatcher;
 	private IRewriter rewriter;
 
-	private List<User> users;
+//	private List<User> users;
 	private IContext context;
 
 	private static String URIroot = "/FrontControllerProject/";
+	
+	private Map<String, Object> velocityContext;
+	private IHtmlContext contextHtml;
 
 	@Override
 	public void init() throws ServletException {
@@ -63,17 +62,22 @@ public class FrontController extends HttpServlet implements IFrontController {
 				new RegExpRoute(URIroot + "user/update/([1-9]+)",
 						"modules.user.Update", new String[] { "id" }),
 
-				new RegExpRoute(URIroot + "home", "modules.pages.HomePage"));
+				new RegExpRoute(URIroot + "home", "modules.pages.HomePage"),
+				new RegExpRoute(URIroot + "page-deux", "modules.pages.PageDeux"));
 
-		users = new ArrayList<User>();
-		ArrayList<String> rules = new ArrayList<String>();
+//		users = new ArrayList<User>();
+//		ArrayList<String> rules = new ArrayList<String>();
 
-		rules.add("admin");
-		rules.add("test");
+//		rules.add("admin");
+//		rules.add("test");
 
-		users.add(new User(1, "log1", "toto", rules));
-		users.add(new User(2, "log2", "titi", rules));
+//		users.add(new User(1, "log1", "toto", rules));
+//		users.add(new User(2, "log2", "titi", rules));
 
+		// Initiliaze Velocity
+		VelocityInitializer.getInstance().initializeVelocity();
+		velocityContext = new HashMap<String, Object>();
+		
 		super.init();
 	}
 
@@ -87,7 +91,11 @@ public class FrontController extends HttpServlet implements IFrontController {
 	public void handle(HttpServletRequest request, HttpServletResponse response) {
 		context = createContext(request, response);
 
-		context.setAttribute("users", users);
+//		context.setAttribute("users", users);
+		context.setAttribute("velocityContext", velocityContext);
+		
+		contextHtml = context.toHtmlContext();
+		contextHtml.addCssLink("../css/bootstrap.css");
 
 		rewriter.rewrite(context);
 		dispatcher.dispatch(context);
