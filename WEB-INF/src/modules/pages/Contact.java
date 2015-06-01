@@ -9,14 +9,16 @@ import modules.misc.VelocityUtil;
 
 import org.esgi.web.framework.action.interfaces.IAction;
 import org.esgi.web.framework.context.interfaces.IContext;
+import org.esgi.web.framework.context.interfaces.IHtmlContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import controller.FrontController;
 
-public class PageDeux implements IAction {
-	
+public class Contact implements IAction{
+
 	private Map<String, Object> velocityContext;
+	private IHtmlContext contextHtml;
 
 	@Override
 	public int setPriority(int priority) {
@@ -77,6 +79,18 @@ public class PageDeux implements IAction {
 			
 			if(content == null){
 				content = VelocityUtil.getInstance().render(file + ".vm", velocityContext).toString();
+				
+				contextHtml = context.toHtmlContext();
+				String[] cssLinks = contextHtml.getCssLinks();
+				String[] jsLinks = contextHtml.getJsLinks();
+				
+				for (String link : cssLinks) {
+					content += "<link href=\"" + link + "\" rel=\"stylesheet\" type=\"text/css\">";
+				}
+				
+				for (String oneLink : jsLinks) {
+					content += "<script src=\"" + oneLink +"\"></script>";
+				}
 			}
 			else {
 				content += VelocityUtil.getInstance().render(file + ".vm", velocityContext).toString();
@@ -85,5 +99,4 @@ public class PageDeux implements IAction {
 
 		return content;
 	}
-
 }

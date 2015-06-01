@@ -63,7 +63,8 @@ public class FrontController extends HttpServlet implements IFrontController {
 						"modules.user.Update", new String[] { "id" }),
 
 				new RegExpRoute(URIroot + "home", "modules.pages.HomePage"),
-				new RegExpRoute(URIroot + "page-deux", "modules.pages.PageDeux"));
+				new RegExpRoute(URIroot + "about", "modules.pages.About"),
+				new RegExpRoute(URIroot + "contact", "modules.pages.Contact"));
 
 //		users = new ArrayList<User>();
 //		ArrayList<String> rules = new ArrayList<String>();
@@ -95,8 +96,19 @@ public class FrontController extends HttpServlet implements IFrontController {
 		context.setAttribute("velocityContext", velocityContext);
 		
 		contextHtml = context.toHtmlContext();
-		contextHtml.addCssLink("../css/bootstrap.css");
+		contextHtml.addCssLink("http://localhost:8080/FrontControllerProject/css/bootstrap.css");
+		contextHtml.addCssLink("http://localhost:8080/FrontControllerProject/css/freelancer.css");
+		contextHtml.addCssLink("http://localhost:8080/FrontControllerProject/font-awesome/css/font-awesome.min.css");
 
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/jquery.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/bootstrap.min.js");
+		contextHtml.addJsLink("http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/classie.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/cbpAnimatedHeader.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/jqBootstrapValidation.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/contact_me.js");
+		contextHtml.addJsLink("http://localhost:8080/FrontControllerProject/js/freelancer.js");
+	
 		rewriter.rewrite(context);
 		dispatcher.dispatch(context);
 	}

@@ -5,7 +5,7 @@
 			},
 			"module.html.body" : {
 				"nav-bar" : "nav",
-				"body" : "center"
+				"body" : "about"
 			},
 			"module.html.footer" : {
 				"footer" : "footer"

@@ -195,7 +195,7 @@ public class Context implements IContext, IHtmlContext {
 
 	@Override
 	public String[] getJsLinks() {
-		return (String[]) jsLinks.toArray();
+		return (String[]) jsLinks.toArray(new String[jsLinks.size()]);
 	}
 	@Override
 	public String[] getUserCredentials() {

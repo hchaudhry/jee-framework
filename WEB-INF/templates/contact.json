@@ -4,7 +4,8 @@
 				"head" : "header"
 			},
 			"module.html.body" : {
-				"body" : "body"
+				"nav-bar" : "nav",
+				"body" : "contact"
 			},
 			"module.html.footer" : {
 				"footer" : "footer"

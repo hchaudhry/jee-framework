@@ -1,0 +1,19 @@
+<!-- About Section -->
+    <section class="success" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>About</h2>
+                    <hr class="star-light">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius nisl nec pellentesque semper. Pellentesque efficitur placerat condimentum. Aenean fringilla tellus elit, ut sodales risus laoreet ac. Nullam rutrum elit a lacus interdum, ac accumsan orci blandit. Nunc dignissim enim in urna consectetur venenatis. Integer semper rhoncus lacinia. Etiam imperdiet accumsan enim, vel condimentum quam bibendum ac. Mauris tincidunt lorem in mi lobortis, ut maximus metus imperdiet.</p>
+                </div>
+                <div class="col-lg-4">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius nisl nec pellentesque semper. Pellentesque efficitur placerat condimentum. Aenean fringilla tellus elit, ut sodales risus laoreet ac. Nullam rutrum elit a lacus interdum, ac accumsan orci blandit. Nunc dignissim enim in urna consectetur venenatis. Integer semper rhoncus lacinia. Etiam imperdiet accumsan enim, vel condimentum quam bibendum ac. Mauris tincidunt lorem in mi lobortis, ut maximus metus imperdiet.</p>
+                </div>
+            </div>
+        </div>
+    </section>

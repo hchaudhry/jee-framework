@@ -15,11 +15,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import controller.FrontController;
 
-public class HomePage implements IAction {
-
+public class About implements IAction {
+	
 	private Map<String, Object> velocityContext;
 	private IHtmlContext contextHtml;
-	
+
 	@Override
 	public int setPriority(int priority) {
 		return 0;
@@ -32,7 +32,6 @@ public class HomePage implements IAction {
 
 	@Override
 	public void addCredential(String role) {
-
 	}
 
 	@Override
@@ -52,11 +51,8 @@ public class HomePage implements IAction {
 		List<Entry<String, JsonNode>> elements = ft.getTemplate(context);
 		
 		velocityContext = (Map<String, Object>) context.getAttribute("velocityContext");
-		
-		velocityContext.put("title", "Framework Java");
-
 		String content = getContentFromFile(elements, context);
-		
+
 		try {
 			context._getResponse().getWriter().println(content);
 			context.setAttribute("velocityContext", velocityContext);
@@ -83,7 +79,7 @@ public class HomePage implements IAction {
 			
 			if(content == null){
 				content = VelocityUtil.getInstance().render(file + ".vm", velocityContext).toString();
-
+				
 				contextHtml = context.toHtmlContext();
 				String[] cssLinks = contextHtml.getCssLinks();
 				String[] jsLinks = contextHtml.getJsLinks();
